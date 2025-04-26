@@ -19,6 +19,7 @@ pkgs.mkShellNoCC {
     docker
     sqlite
     xz
+    less
     wget
     copier
     bash-completion
