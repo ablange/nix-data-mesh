@@ -12,6 +12,7 @@ pkgs.mkShellNoCC {
     readline
     bzip2
     openssl
+    openssh
     ncurses
     curl
     openssl
