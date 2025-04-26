@@ -250,6 +250,9 @@ cmake-build-*/
 # IntelliJ
 out/
 
+# Makefile
+.idea/vcs.xml
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
