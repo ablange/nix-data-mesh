@@ -21,7 +21,4 @@ setup: shell
 
 shell:
 	echo 'starting Nix bash shell ...'
-	cp -rf shell/bash/.bashrc ~/.bashrc
-	cp -rf shell/bash/.bash_aliases ~/.bash_aliases
-	cp -rf shell/bash/.bash_profile ~/.bash_profile
 	nix-shell --pure
