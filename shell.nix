@@ -41,6 +41,8 @@ pkgs.mkShellNoCC {
        https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
 
      echo "~~~~~ Bash shell restart w/ profile, prompt, aliases, and more! ~~~~~"";
-     bash;
+     source shell/bash/.bashrc
+     source shell/bash/.bash_aliases
+     source shell/bash/.bash_profile
    '';
 }
