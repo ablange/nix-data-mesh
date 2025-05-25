@@ -41,10 +41,10 @@ local: local_pyenv local_pip precommit
 	echo 'Initializing your local development environment ... '
 
 
-env_name = {{project_name}}-virtualenv-3.11.9
+env_name = {{project_name}}-virtualenv-{{project_python_version}}
 local_pyenv:
 	echo 'Initializing Python virtual environment locally ...'
-	pyenv virtualenv 3.11.9 $(env_name)
+	pyenv virtualenv {{project_python_version}} $(env_name)
 	pyenv local $(env_name)
 	pip install -r requirements.dev.txt
 

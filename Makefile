@@ -41,7 +41,6 @@ pyenv:
 	pyenv global $(PYTHON_VERSION)
 
 
-# TODO: Add template parameter: project_version.
 project_name = default_project_name
 python:
 	echo 'initializing Python project using template ... '
