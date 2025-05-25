@@ -28,6 +28,8 @@ pkgs.mkShellNoCC {
     mkdocs
     python312Packages.mkdocs-material
     pyenv
+    copier
+    docker
   ];
 
    NAME = "nix-data-mesh";
