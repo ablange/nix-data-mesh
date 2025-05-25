@@ -33,8 +33,40 @@ help:
 	"
 
 
-setup: container dependencies local
+setup: local container dependencies
 	echo 'Initializing your development environment ... '
+
+
+local: local_pyenv local_pip precommit
+	echo 'Initializing your local development environment ... '
+
+
+env_name = {{project_name}}-virtualenv-3.11.9
+local_pyenv:
+	echo 'Initializing Python virtual environment locally ...'
+	pyenv virtualenv 3.11.9 $(env_name)
+	pyenv local $(env_name)
+	pip install -r requirements.dev.txt
+
+
+local_pip:
+	echo 'Installing Pip packages locally ...'
+	pip install --upgrade pip
+	pip-compile --output-file=requirements.dev.txt pyproject.toml --extra dev
+	pip check && pip install -r requirements.dev.txt
+
+
+clean_local:
+	echo 'Deleting local Python virtual environment ...'
+	pre-commit uninstall
+	pip freeze | xargs pip uninstall -y
+	pyenv uninstall $(env_name)
+	rm .python-version
+
+
+precommit:
+	echo 'Installing pre-commit hooks ...'
+	pre-commit install
 
 
 container:
@@ -93,35 +125,3 @@ wheel:
 template:
 	echo 'Pulling template updates from: macos-workspace/templates/python ...'
 	copier recopy
-
-
-local: local_pyenv local_pip precommit
-	echo 'Initializing your local development environment ... '
-
-
-env_name = {{project_name}}-virtualenv-3.11.9
-local_pyenv:
-	echo 'Initializing Python virtual environment locally ...'
-	pyenv virtualenv 3.11.9 $(env_name)
-	pyenv local $(env_name)
-	pip install -r requirements.dev.txt
-
-
-local_pip:
-	echo 'Installing Pip packages locally ...'
-	pip install --upgrade pip
-	pip-compile --output-file=requirements.dev.txt pyproject.toml --extra dev
-	pip check && pip install -r requirements.dev.txt
-
-
-clean_local:
-	echo 'Deleting local Python virtual environment ...'
-	pre-commit uninstall
-	pip freeze | xargs pip uninstall -y
-	pyenv uninstall $(env_name)
-	rm .python-version
-
-
-precommit:
-	echo 'Installing pre-commit hooks ...'
-	pre-commit install
