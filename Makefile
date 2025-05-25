@@ -18,7 +18,7 @@ help:
 
 PYTHON_VERSION := 3.11.9
 
-setup: shell pyenv
+setup: pyenv shell
 	echo 'building nix-data-mesh platform ... '
 
 shell:

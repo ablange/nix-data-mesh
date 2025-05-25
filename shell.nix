@@ -27,6 +27,7 @@ pkgs.mkShellNoCC {
     pre-commit
     mkdocs
     python312Packages.mkdocs-material
+    pyenv
   ];
 
    NAME = "nix-data-mesh";
