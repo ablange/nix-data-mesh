@@ -1,31 +1,35 @@
 # This Makefile was automatically generated using the macos-workspace Python template.
 .PHONY: help setup container start stop clean bash dependencies apt pip wheel template local local_pyenv local_dev_dependencies precommit
 help:
-	@echo "\
-	\n Makefile for Python project: {{project_name}}    \
-	\n \
-  	\n Usage: \
+    @echo "\
+    \n Makefile for Python project: {{project_name}}    \
+    \n                                                  \
+    \n Usage:                                           \
     \n   - Run 'make setup' to initialize your development environment.         \
     \n   - Run 'make dependencies' to install Python and OS packages.           \
     \n   - Run 'make clean' before 'make setup' to build a new Docker image.    \
-    \n \
-	\n Example: \
+    \n                                                                          \
+    \n Example:                                                                 \
     \n   $ make <COMMAND> 														\
     \n   e.g., $ make setup 													\
-    \n \
-    \n Commands: \
-    \n   bash           run Bash shell inside Docker container	              	\
-    \n   clean          teardown environment and delete cache files  			\
-    \n   dependencies   install Python and OS dependencies      				\
-    \n   docs           generate Sphinx documentation from code 				\
-    \n   container      initialize Docker image and container 	     			\
-    \n   lint           run linter manually                     				\
+    \n                                                                          \
+    \n Commands:                                                                \
+    \n   apt            install Apt packages in Docker container               	\
+    \n   bash           shell into Docker container                         	\
+    \n   container      install Docker container	                     	    \
+    \n   clean          teardown Docker container  		            	        \
+    \n   clean_local    teardown Python virtual environment   			        \
+    \n   dependencies   install all dependencies in Docker container     		\
+    \n   local          start Python virtual environment   			         	\
+    \n   local_pyenv    install Python virtual environment   				    \
+    \n   local_pip      install Pip packages in Python virtual environment  	\
+    \n   pip            install Pip packages in Docker container             	\
     \n   precommit      start pre-commit hook           				        \
-    \n   precommit_stop stop pre-commit hook                    				\
     \n   setup          initialize local development environment				\
     \n   start          start Docker container                  				\
     \n   stop           stop Docker container                   				\
-    \n   test           run tests and generate coverage report  				\
+    \n   template       pull template changes from nix-data-mesh          		\
+    \n   wheel          export project to Python wheel                   		\
 	"
 
 setup: container dependencies local
