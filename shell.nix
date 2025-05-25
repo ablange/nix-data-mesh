@@ -27,9 +27,9 @@ pkgs.mkShellNoCC {
     pre-commit
     mkdocs
     python312Packages.mkdocs-material
+    python311Packages.pytest-cov
+    python311Packages.pytest
     pyenv
-    copier
-    docker
   ];
 
    NAME = "nix-data-mesh";

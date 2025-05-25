@@ -28,7 +28,9 @@ dependencies = [
 dev = [
   "django-debug-toolbar<2.2",  # test
   "ruff",
-  "pre-commit"
+  "pre-commit",
+  "pytest",
+  "pytest-cov",
 ]
 
 
@@ -102,7 +104,12 @@ select = [
 ignore = [
   # On top of the Google convention, disable `D417`, which requires
   # documentation for every function parameter.
-  "D417"
+  "D417",
+  # Ignore missing docstring in public module
+  "D100",
+  "D103",
+  "D104",
+  "ANN201",
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.

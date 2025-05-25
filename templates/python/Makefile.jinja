@@ -29,6 +29,7 @@ help:
     \n   start          start Docker container                  				\
     \n   stop           stop Docker container                   				\
     \n   template       pull template changes from nix-data-mesh          		\
+    \n   test           run test coverage report                        		\
     \n   wheel          export project to Python wheel                   		\
 	"
 
@@ -123,5 +124,10 @@ wheel:
 
 
 template:
-	echo 'Pulling template updates from: macos-workspace/templates/python ...'
+	echo 'Pulling template updates from: ~/repos/nix-data-mesh/templates/python ...'
 	copier recopy
+
+
+test:
+	echo 'Running test coverage report ...'
+	pytest --cov={{project_name}}  --cov-report=term --cov-fail-under=80

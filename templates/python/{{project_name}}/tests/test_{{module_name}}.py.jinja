@@ -1,0 +1,46 @@
+"""Sample of unit tests reaching 100% coverage."""
+
+import pytest
+from {{project_name}} import {{module_name}}
+
+
+def test_get_multiplier_valid():
+    assert {{module_name}}.get_multiplier("alpha") == 10
+    assert {{module_name}}.get_multiplier("beta") == 100
+
+
+def test_get_multiplier_invalid():
+    with pytest.raises(ValueError, match="Unknown multiplier_id"):
+        {{module_name}}.get_multiplier("gamma")
+
+
+def test_calculate_factor():
+    result = {{module_name}}.calculate_factor("alpha", 2.0)
+    assert result == 20.0
+
+
+def test_is_positive():
+    assert {{module_name}}.is_positive(1.0) is True
+    assert {{module_name}}.is_positive(0.0) is False
+    assert {{module_name}}.is_positive(-5.0) is False
+
+
+def test_normalize_to_unit_range():
+    result = {{module_name}}.normalize_to_unit_range(5.0, 0.0, 10.0)
+    assert result == 0.5
+
+
+def test_normalize_to_unit_range_error():
+    with pytest.raises(ValueError):
+        {{module_name}}.normalize_to_unit_range(1.0, 2.0, 2.0)
+
+
+def test_is_even():
+    assert {{module_name}}.is_even(2) is True
+    assert {{module_name}}.is_even(3) is False
+
+
+def test_get_multiplier_keys():
+    keys = {{module_name}}.get_multiplier_keys()
+    assert "alpha" in keys
+    assert "beta" in keys

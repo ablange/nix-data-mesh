@@ -1,3 +1,35 @@
-"""This is a module docstring."""
+"""Sample module."""
 
-print("Hello from {{module_name}}!")
+MULTIPLIER_DICT = {
+    "alpha": 10,
+    "beta": 100,
+}
+
+
+def get_multiplier(multiplier_id: str) -> float:
+    try:
+        return MULTIPLIER_DICT[multiplier_id]
+    except KeyError as ke:
+        raise ValueError(f"Unknown multiplier_id: {multiplier_id}") from ke
+
+
+def calculate_factor(multiplier_id: str, input_value: float) -> float:
+    return input_value * get_multiplier(multiplier_id)
+
+
+def is_positive(number: float) -> bool:
+    return number > 0
+
+
+def normalize_to_unit_range(value: float, min_value: float, max_value: float) -> float:
+    if max_value == min_value:
+        raise ValueError("min_value and max_value cannot be equal")
+    return (value - min_value) / (max_value - min_value)
+
+
+def is_even(number: int) -> bool:
+    return number % 2 == 0
+
+
+def get_multiplier_keys() -> list[str]:
+    return list(MULTIPLIER_DICT.keys())
