@@ -16,9 +16,21 @@ help:
 	\n                                         \
 	"
 
-setup: shell
+PYTHON_VERSION := 3.11.9
+
+setup: shell pyenv
 	echo 'building nix-data-mesh platform ... '
 
 shell:
 	echo 'starting Nix bash shell ...'
 	nix-shell --pure
+
+pyenv:
+	@if ! pyenv versions --bare | grep -qx "$(PYTHON_VERSION)"; then \
+		echo 'Installing Python $(PYTHON_VERSION)...'; \
+		pyenv install $(PYTHON_VERSION); \
+	else \
+		echo 'Python $(PYTHON_VERSION) already installed.'; \
+	fi; \
+	echo 'Setting global Python version to $(PYTHON_VERSION)...'; \
+	pyenv global $(PYTHON_VERSION)
