@@ -1,19 +1,19 @@
 # This Makefile was automatically generated using the macos-workspace Python template.
 .PHONY: help setup container start stop clean bash dependencies apt pip wheel template local local_pyenv local_dev_dependencies precommit
 help:
-    @echo "\
-    \n Makefile for Python project: {{project_name}}    \
-    \n                                                  \
-    \n Usage:                                           \
+	@echo "\
+	\n Makefile for Python project: {{project_name}}    \
+	\n \
+  	\n Usage: \
     \n   - Run 'make setup' to initialize your development environment.         \
     \n   - Run 'make dependencies' to install Python and OS packages.           \
     \n   - Run 'make clean' before 'make setup' to build a new Docker image.    \
-    \n                                                                          \
-    \n Example:                                                                 \
+    \n \
+	\n Example: \
     \n   $ make <COMMAND> 														\
     \n   e.g., $ make setup 													\
-    \n                                                                          \
-    \n Commands:                                                                \
+    \n \
+    \n Commands: \
     \n   apt            install Apt packages in Docker container               	\
     \n   bash           shell into Docker container                         	\
     \n   container      install Docker container	                     	    \
@@ -31,6 +31,7 @@ help:
     \n   template       pull template changes from nix-data-mesh          		\
     \n   wheel          export project to Python wheel                   		\
 	"
+
 
 setup: container dependencies local
 	echo 'Initializing your development environment ... '
