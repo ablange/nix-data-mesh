@@ -15,10 +15,10 @@ eval "$(pyenv virtualenv-init -)"
 
 # Pyenv-virtualenv
 function cd() {
+  # Automatically activate virtual environment when cd into a dir
   builtin cd "$@"
-
   if [[ -z "$VIRTUAL_ENV" ]] ; then
-    ## If env folder is found then activate the vitualenv
+      # If .env folder is found, then activate the venv.
       if [[ -d ./.env ]] ; then
         source ./.env/bin/activate
       fi
