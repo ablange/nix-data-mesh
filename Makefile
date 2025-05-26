@@ -46,7 +46,7 @@ python:
 	echo 'initializing Python project using template ... '
 	copier copy $(MESH_HOME)/nix-data-mesh/templates/python/ $(MESH_HOME)/$(project_name)
 	git -C $(MESH_HOME)/$(project_name) init
-	echo 'Done! cd into $(MESH_HOME)/$(project_name) to get started!'
+	echo 'Done! Exit shell & cd into $(MESH_HOME)/$(project_name) to get started!'
 
 
 .PHONY: python_recopy
