@@ -1,5 +1,5 @@
 # This Makefile was automatically generated using the macos-workspace Python template.
-.PHONY: help setup container start stop clean bash dependencies apt pip wheel template local local_pyenv local_dev_dependencies precommit
+.PHONY: help setup container start stop clean bash dependencies apt pip wheel template local local_pyenv local_dev_dependencies precommit docs docs_server
 help:
 	@echo "\
 	\n Makefile for Python project: {{project_name}}    \
@@ -20,6 +20,8 @@ help:
     \n   clean          teardown Docker container  		            	        \
     \n   clean_local    teardown Python virtual environment   			        \
     \n   dependencies   install all dependencies in Docker container     		\
+    \n   docs           compile Mkdocs documentation locally                    \
+    \n   docs_server    serve Mkdocs documentation locally                      \
     \n   local          start Python virtual environment   			         	\
     \n   local_pyenv    install Python virtual environment   				    \
     \n   local_pip      install Pip packages in Python virtual environment  	\
@@ -131,3 +133,13 @@ template:
 test:
 	echo 'Running test coverage report ...'
 	pytest --cov={{project_name}}  --cov-report=term --cov-fail-under=80
+
+
+docs:
+	echo 'Compiling documentation using Mkdocs ..'
+	mkdocs build --clean
+	echo 'Done! Run "make docs_server" to host site locally!'
+
+docs_server:
+	echo 'Serving documentation locally using Mkdocs ..'
+	mkdocs serve

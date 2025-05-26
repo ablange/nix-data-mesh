@@ -25,8 +25,8 @@ pkgs.mkShellNoCC {
     copier
     bash-completion
     pre-commit
-    mkdocs
-    python312Packages.mkdocs-material
+    python311Packages.mkdocs
+    python311Packages.mkdocs-material
     python311Packages.pytest-cov
     python311Packages.pytest
     pyenv
