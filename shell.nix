@@ -24,6 +24,7 @@ pkgs.mkShellNoCC {
     wget
     copier
     bash-completion
+    man
     pre-commit
     python311Packages.mkdocs
     python311Packages.mkdocs-material
