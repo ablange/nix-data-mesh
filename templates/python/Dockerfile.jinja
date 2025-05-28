@@ -3,7 +3,8 @@ FROM ubuntu
 
 # Set home directory & copy project source code
 ENV HOME="/home"
-ENV PROJECT="$HOME/repos/{{project_name}}"
+ENV MESH_HOME="repos"
+ENV PROJECT="$HOME/$MESH_HOME/{{project_name}}"
 WORKDIR $PROJECT
 COPY . $PROJECT
 
