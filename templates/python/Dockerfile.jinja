@@ -23,8 +23,6 @@ RUN set -ex \
     && pyenv install $PYTHON_VERSION \
     && pyenv global $PYTHON_VERSION \
     && pyenv rehash
-RUN pip install --upgrade pip \
-    && pip install -r requirements.txt
 
 # Run tail command so container stays alive
 CMD ["tail", "-f", "/dev/null"]
