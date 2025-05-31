@@ -144,7 +144,7 @@ template:
 
 test:
 	echo 'Running test coverage report ...'
-	pytest --cov={{project_name}}  --cov-report=term --cov-fail-under=80
+	docker exec -it {{project_name}}_container pytest --cov={{project_name}}  --cov-report=term --cov-fail-under=80
 
 
 docs:
