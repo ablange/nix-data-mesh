@@ -122,7 +122,8 @@ pip:
 	docker exec -it {{project_name}}_container pip install --upgrade pip
 	docker exec -it {{project_name}}_container pip install pip-tools
 	docker exec -it {{project_name}}_container pip-compile --output-file=requirements.txt pyproject.toml
-	docker exec -it {{project_name}}_container pip check && pip install -r requirements.txt
+	docker exec -it {{project_name}}_container pip check
+	docker exec -it {{project_name}}_container pip install -r requirements.txt
 
 
 pip_dev:
