@@ -130,8 +130,9 @@ pip_dev:
 	echo 'Installing Pip packages ...'
 	docker exec -it {{project_name}}_container pip install --upgrade pip
 	docker exec -it {{project_name}}_container pip install pip-tools
-	docker exec -it {{project_name}}_container pip-compile --output-file=requirements.dev.txt pyproject.toml
-	docker exec -it {{project_name}}_container pip check && pip install -r requirements.dev.txt
+	docker exec -it {{project_name}}_container pip-compile --output-file=requirements.dev.txt pyproject.toml  --extra dev
+	docker exec -it {{project_name}}_container pip check
+	docker exec -it {{project_name}}_container pip install -r requirements.dev.txt
 
 wheel:
 	echo 'Building binary package wheel ...'
