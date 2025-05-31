@@ -17,20 +17,28 @@ classifiers = [
 #####  Pip-tools Dependencies                                                           #####
 #####    https://pip-tools.readthedocs.io/en/latest/#workflow-for-layered-requirements  #####
 #############################################################################################
-# Run ``make dependencies`` to install packages declared as runtime dependencies:
+# Run ``make dependencies`` to install packages used at runtime:
 dependencies = [
-  "pip-tools",
-  "django<2.2",  # test
-]
 
-# Run ``make optional_dependencies`` to install packages declared for development purposes::
-[project.optional-dependencies]
-dev = [
-  "django-debug-toolbar<2.2",  # test
-  "ruff",
-  "pre-commit",
+  # Core runtime dependencies intended for use inside container:
+  "django<2.2",
+
+  # Build and test packages intended for use inside container:
+  "pip-tools",
   "pytest",
   "pytest-cov",
+]
+
+# Run ``make optional_dependencies`` to install packages used at development-time:
+[project.optional-dependencies]
+dev = [
+
+  # Supplemental packages intended for feature development inside container:
+  "django-debug-toolbar<2.2",
+
+  # Lint and documentation packages intended for local use outside container:
+  "ruff",
+  "pre-commit",
   "mkdocs-material",
 ]
 
