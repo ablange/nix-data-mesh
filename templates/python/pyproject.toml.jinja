@@ -19,11 +19,7 @@ classifiers = [
 #############################################################################################
 # Run ``make dependencies`` to install packages used at runtime:
 dependencies = [
-
-  # Core runtime dependencies intended for use inside container:
-  "django<2.2",
-
-  # Build and test packages intended for use inside container:
+  "django<2.2",  # demo
   "pip-tools",
   "pytest",
   "pytest-cov",
@@ -32,11 +28,7 @@ dependencies = [
 # Run ``make optional_dependencies`` to install packages used at development-time:
 [project.optional-dependencies]
 dev = [
-
-  # Supplemental packages intended for feature development inside container:
-  "django-debug-toolbar<2.2",
-
-  # Lint and documentation packages intended for local use outside container:
+  "django-debug-toolbar<2.2",  # demo
   "ruff",
   "pre-commit",
   "mkdocs-material",
