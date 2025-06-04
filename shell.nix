@@ -24,9 +24,14 @@ pkgs.mkShellNoCC {
     wget
     copier
     bash-completion
+    man
+    nano
     pre-commit
-    mkdocs
-    python312Packages.mkdocs-material
+    python311Packages.mkdocs
+    python311Packages.mkdocs-material
+    python311Packages.pytest-cov
+    python311Packages.pytest
+    pyenv
   ];
 
    NAME = "nix-data-mesh";
@@ -34,15 +39,16 @@ pkgs.mkShellNoCC {
    shellHook = ''
      echo "Sit tight, we're initializing $NAME ...";
 
-     echo "~~~~~ Git command and branch autocompletion ~~~~~"";
+     echo "~~~~~ Git command and branch autocompletion ~~~~~";
      curl -o ~/.git-completion.bash \
        https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
      curl -o ~/.git-prompt.sh \
        https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
 
-     echo "~~~~~ Bash shell restart w/ profile, prompt, aliases, and more! ~~~~~"";
+     echo "~~~~~ Bash profile, command aliases, autocompletion ~~~~~";
      source shell/bash/.bashrc
      source shell/bash/.bash_aliases
      source shell/bash/.bash_profile
+     source ${pkgs.bash-completion}/etc/profile.d/bash_completion.sh
    '';
 }

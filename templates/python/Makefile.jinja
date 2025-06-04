@@ -1,0 +1,159 @@
+# This Makefile was automatically generated using the nix-data-mesh template: Python
+.PHONY: apt bash clean clean_local container dependencies dependencies_optional docs docs_server help local local_pyenv local_pip pip pip_dev precommit setup start stop template test wheel
+help:
+	@echo "\
+	\n Makefile for Python project: {{project_name}}    \
+	\n \
+  	\n Usage: \
+    \n   - Run 'make setup' to initialize your development environment.         \
+    \n   - Run 'make dependencies' to install Python and OS packages.           \
+    \n   - Run 'make clean' before 'make setup' to build a new Docker image.    \
+    \n \
+	\n Example: \
+    \n   $ make <COMMAND> 														\
+    \n   e.g., $ make setup 													\
+    \n \
+    \n Commands: \
+    \n   apt            install Apt packages in Docker container               	\
+    \n   bash           shell into Docker container                         	\
+    \n   container      install Docker container	                     	    \
+    \n   clean          teardown Docker container  		            	        \
+    \n   clean_local    teardown Python virtual environment   			        \
+    \n   dependencies_optional                                          		\
+    \n   dependencies   install all dependencies in Docker container     		\
+    \n   docs           compile Mkdocs documentation locally                    \
+    \n   docs_server    serve Mkdocs documentation locally                      \
+    \n   local          start Python virtual environment   			         	\
+    \n   local_pyenv    install Python virtual environment   				    \
+    \n   local_pip      install Pip packages in Python virtual environment  	\
+    \n   pip            install Pip packages in Docker container             	\
+    \n   pip_dev                                                             	\
+    \n   precommit      start pre-commit hook           				        \
+    \n   setup          initialize local development environment				\
+    \n   start          start Docker container                  				\
+    \n   stop           stop Docker container                   				\
+    \n   template       pull template changes from nix-data-mesh          		\
+    \n   test           run test coverage report                        		\
+    \n   wheel          export project to Python wheel                   		\
+	"
+
+
+setup: local container dependencies
+	echo 'Initializing your development environment ... '
+
+
+local: local_pyenv local_pip precommit
+	echo 'Initializing your local development environment ... '
+
+
+env_name = {{project_name}}-virtualenv-{{project_python_version}}
+local_pyenv:
+	echo 'Initializing Python virtual environment locally ...'
+	pyenv virtualenv {{project_python_version}} $(env_name)
+	pyenv local $(env_name)
+
+
+local_pip:
+	echo 'Installing Pip packages locally ...'
+	pip install --upgrade pip
+	pip install pip-tools
+	pip-compile --output-file=requirements.dev.txt pyproject.toml --extra dev
+	pip check && pip install -r requirements.dev.txt
+
+
+clean_local:
+	echo 'Deleting local Python virtual environment ...'
+	pre-commit uninstall
+	pip freeze | xargs pip uninstall -y
+	pyenv uninstall $(env_name)
+	rm .python-version
+
+
+precommit:
+	echo 'Installing pre-commit hooks ...'
+	pre-commit install
+
+
+container:
+	echo 'Initializing Docker image and container ...'
+	docker build -t {{project_name}} .
+	docker run -d --name {{project_name}}_container -it --publish-all \
+	    -v ~/repos/{{project_name}}:/home/repos/{{project_name}} {{project_name}}
+
+
+start:
+	docker start {{project_name}}_container
+
+
+stop:
+	docker stop {{project_name}}_container
+
+
+clean:
+	echo 'Deleting Docker image and container ...'
+	docker stop {{project_name}}_container
+	docker container rm -f {{project_name}}_container
+	docker image rm -f {{project_name}}
+	echo 'Deleting any remaining caches ...'
+	find . -name '*.egg-info' -print0 | xargs -0 rm -rf
+	-rm -rf \
+		build \
+		dist
+
+
+bash:
+	echo 'Starting Bash shell into container ...'
+	docker exec -it {{project_name}}_container sh
+
+
+dependencies: apt pip
+
+dependencies_optional: apt pip_dev
+
+
+apt:
+	echo 'Installing Apt packages ...'
+	docker exec -it {{project_name}}_container apt-get update
+	docker exec -it {{project_name}}_container xargs -a packages.txt apt-get install -y
+
+
+pip:
+	echo 'Installing Pip packages ...'
+	docker exec -it {{project_name}}_container pip install --upgrade pip
+	docker exec -it {{project_name}}_container pip install pip-tools
+	docker exec -it {{project_name}}_container pip-compile --output-file=requirements.txt pyproject.toml
+	docker exec -it {{project_name}}_container pip check
+	docker exec -it {{project_name}}_container pip install -r requirements.txt
+
+
+pip_dev:
+	echo 'Installing Pip packages ...'
+	docker exec -it {{project_name}}_container pip install --upgrade pip
+	docker exec -it {{project_name}}_container pip install pip-tools
+	docker exec -it {{project_name}}_container pip-compile --output-file=requirements.dev.txt pyproject.toml  --extra dev
+	docker exec -it {{project_name}}_container pip check
+	docker exec -it {{project_name}}_container pip install -r requirements.dev.txt
+
+wheel:
+	echo 'Building binary package wheel ...'
+	docker exec -it {{project_name}}_container python -m build --wheel
+
+
+template:
+	echo 'Pulling template updates from: ~/repos/nix-data-mesh/templates/python ...'
+	copier recopy
+
+
+test:
+	echo 'Running test coverage report ...'
+	docker exec -it {{project_name}}_container pytest --cov={{project_name}}  --cov-report=term --cov-fail-under=80
+
+
+docs:
+	echo 'Compiling documentation using Mkdocs ..'
+	mkdocs build --clean
+	echo 'Done! Run "make docs_server" to host site locally!'
+
+docs_server:
+	echo 'Serving documentation locally using Mkdocs ..'
+	mkdocs serve
