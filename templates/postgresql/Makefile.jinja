@@ -1,0 +1,116 @@
+# This Makefile was automatically generated using the nix-data-mesh template: Python
+.PHONY: clean clean_db container dependencies database database_del database_grant database_grant_admin setup start stop template user user_admin user_del
+help:
+	@echo "\
+	\n Makefile for PostgreSQL project: {{project_name}}    \
+	\n \
+  	\n Usage: \
+    \n   - Run 'make setup' to initialize your local database server.        		\
+    \n   - Run 'make dependencies' to install OS packages in your container.		\
+    \n   - Run 'make clean' to teardown container and database sever.   			\
+    \n \
+	\n Example: \
+    \n   $ make <COMMAND> 															\
+    \n   e.g., $ make setup 														\
+    \n \
+    \n Commands: \
+    \n   bash					shell into Docker container							\
+    \n   clean					teardown Docker container							\
+    \n   clean_db				teardown Docker container							\
+    \n   container				initialize Docker container							\
+	\n   dependencies			install runtime	dependencies into Docker container	\
+    \n   database				create postgresql database if not exists			\
+    \n   database_del			delete postgresql database 							\
+    \n   database_grant			grant user READ or WRITE to postgresql database 	\
+    \n   database_grant_admin	grant admin access to postgresql user 				\
+    \n   setup					initialize postgresql server				    	\
+    \n   start					start postgresql server								\
+    \n   stop					stop postgresql server								\
+	\n   template       		pull template changes from nix-data-mesh          	\
+    \n   user					create postgresql user								\
+    \n   user_admin				create postgresql admin user						\
+    \n   user_del				delete postgresql user								\
+	"
+
+
+bash:
+	echo 'Starting Bash shell into container ...'
+	docker exec -it {{project_name}}_container sh
+
+
+clean:
+	echo 'Deleting Docker image and container ...'
+	docker stop {{project_name}}_container
+	docker container rm -f {{project_name}}_container
+	docker image rm -f {{project_name}}
+	echo 'Deleting any remaining caches ...'
+	find . -name '*.egg-info' -print0 | xargs -0 rm -rf
+	-rm -rf \
+		build \
+		dist
+
+
+clean_db:
+	echo 'Dropping and recreating local development database...'
+
+
+container:
+	echo 'Initializing Docker image and container ...'
+	docker build -t {{project_name}} .
+	docker run -d --name {{project_name}}_container -it --publish-all \
+	    -v ~/repos/{{project_name}}:/home/repos/{{project_name}} {{project_name}}
+
+
+dependencies:
+	echo 'Installing Apt packages ...'
+	docker exec -it {{project_name}}_container apt-get update
+	docker exec -it {{project_name}}_container xargs -a packages.txt apt-get install -y
+
+
+database:
+	echo 'Creating PostgreSQL database if it does not exist...'
+
+
+database_del:
+	echo 'Dropping the PostgreSQL database if it exists...'
+
+
+database_grant:
+	echo 'Granting standard access permissions to roles and users...'
+
+
+database_grant_admin:
+	echo 'Granting admin-level permissions to designated roles...'
+
+
+setup: container dependencies start user_admin database
+	echo 'Initializing your development environment ... '
+
+
+start:
+	docker start {{project_name}}_container
+
+
+stop:
+	docker stop {{project_name}}_container
+
+
+stop:
+	echo 'Stopping all running development services...'
+
+
+template:
+	echo 'Pulling template updates from: ~/repos/nix-data-mesh/templates/python ...'
+	copier recopy
+
+
+user:
+	echo 'Creating or syncing standard database users...'
+
+
+user_admin:
+	echo 'Creating or syncing admin database users...'
+
+
+user_del:
+	echo 'Deleting specified database users...'
