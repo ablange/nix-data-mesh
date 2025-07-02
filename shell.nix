@@ -17,6 +17,7 @@ pkgs.mkShellNoCC {
     curl
     openssl
     git
+    gh
     docker
     sqlite
     xz
