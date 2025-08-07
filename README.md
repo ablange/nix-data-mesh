@@ -87,6 +87,11 @@ gh auth
 curl -L https://nixos.org/nix/install | sh
 ```
 
+7. Install Postgres client libraries:
+```commandline
+brew install libpq
+```
+
 </details>
 
 
