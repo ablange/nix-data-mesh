@@ -3,34 +3,26 @@
 # 		Makefile for building ``nix-data-mesh`` infrastructure, services and domains.
 
 .PHONY: help setup pyenv shell python python_recopy
-
 help:
-	@echo "\
-	\n +-------------------------------------+ \
-	\n |            Nix Data Mesh            | \
-	\n |              Commands               | \
-	\n +-------------------------------------+ \
-	\n setup: build local environment          \
-	\n shell: start Nix bash shell             \
-	\n pyenv: install Python globally          \
-	\n python: create new Python project       \
-	\n python_recopy: update Python project    \
-	"
+	@awk 'BEGIN {FS=":.*##"; \
+		print "Usage: make <command> [arg=<val>]\n\nA build system for modern data platforms.\n\nCommand List:"} \
+		/^[[:alnum:]_%.-]+:.*##/ {printf "  %-24s %s\n", $$1, $$2}' \
+		$(MAKEFILE_LIST)
 
 PYTHON_VERSION := 3.11.9
 MESH_HOME := ~/repos
 
 
-setup: pyenv shell
+setup: pyenv shell  ## Build local environment
 	echo 'building nix-data-mesh platform ... '
 
 
-shell:
+shell:  ## Start local Nix bash shell
 	echo 'starting Nix bash shell ...'
 	nix-shell --pure
 
 
-pyenv:
+pyenv:  ## Install Python globally using Pyenv
 	@if ! pyenv versions --bare | grep -qx "$(PYTHON_VERSION)"; then \
 		echo 'Installing Python $(PYTHON_VERSION)...'; \
 		pyenv install $(PYTHON_VERSION); \
@@ -42,7 +34,7 @@ pyenv:
 
 
 project_name = default_project_name
-python:
+python:  ## [TEMPLATE] State-of-the-art Python project template.
 	echo 'initializing Python project using template ... '
 	copier copy $(MESH_HOME)/nix-data-mesh/templates/python/ $(MESH_HOME)/$(project_name)
 	git -C $(MESH_HOME)/$(project_name) init
@@ -50,6 +42,6 @@ python:
 
 
 .PHONY: python_recopy
-python_recopy:
+python_recopy:  ## [TEMPLATE] Apply updates to existing Python project.
 	echo 'applying template updates to existing Python project ... '
 	(cd $(MESH_HOME)/$(project_name); copier recopy)
