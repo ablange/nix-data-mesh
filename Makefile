@@ -1,28 +1,26 @@
-# 		nix-data-mesh
-#		~~~~~~~~~~~~~~~
-# 		Makefile for building ``nix-data-mesh`` infrastructure, services and domains.
-
 .PHONY: help setup pyenv shell python python_recopy
-help:
-	@awk 'BEGIN {FS=":.*##"; \
-		print "Usage: make <command> [arg=<val>]\n\nA build system for modern data platforms.\n\nCommand List:"} \
-		/^[[:alnum:]_%.-]+:.*##/ {printf "  %-24s %s\n", $$1, $$2}' \
-		$(MAKEFILE_LIST)
 
+DESCRIPTION = A build system for modern data platforms.
 PYTHON_VERSION := 3.11.9
 MESH_HOME := ~/repos
 
+help:  ## List all commands.
+	@awk 'BEGIN {FS=":.*##"; \
+		print "Usage: make <command> [arg=<val>]\n\n$(DESCRIPTION)\n\nCommand List:"} \
+		/^[[:alnum:]_%.-]+:.*##/ {printf "  %-24s %s\n", $$1, $$2}' \
+		$(MAKEFILE_LIST)
 
-setup: pyenv shell  ## Build local environment
+
+setup: pyenv shell  ## Build local environment.
 	echo 'building nix-data-mesh platform ... '
 
 
-shell:  ## Start local Nix bash shell
+shell:  ## Start local Nix bash shell.
 	echo 'starting Nix bash shell ...'
 	nix-shell --pure
 
 
-pyenv:  ## Install Python globally using Pyenv
+pyenv:  ## Install Python globally using Pyenv.
 	@if ! pyenv versions --bare | grep -qx "$(PYTHON_VERSION)"; then \
 		echo 'Installing Python $(PYTHON_VERSION)...'; \
 		pyenv install $(PYTHON_VERSION); \
