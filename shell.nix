@@ -19,6 +19,7 @@ pkgs.mkShellNoCC {
     git
     gh
     docker
+    docker-compose
     sqlite
     xz
     less
